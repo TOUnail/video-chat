@@ -25,15 +25,18 @@ const ContextProvider = ({ children }) => {
         myVideo.current.srcObject = currentStream;
       });
     socket.on("me", (id) => setMe(id));
-    socket.on("calluser", ({ from, name: callerName, signal }) => {
-      setCall({ isReceivedCall: true, from, name: callerName, signal });
+    socket.on("callUser", ({ from, name: callerName, signal }) => {
+      setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, []);
   const answerCall = () => {
+    console.log(`answerCall id: ${me}`);
     setCallAccepted(true);
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
-      socket.emit("answercall", { signal: data, to: call.from });
+      socket.emit("answerCall", { signal: data, to: call.from });
+
+      socket.emit("join", { name: name, room: me });
     });
     peer.on("stream", (currentStream) => {
       userVideo.current.srcObject = currentStream;
@@ -42,9 +45,10 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
   const callUser = (id) => {
+    console.log(`callUser id: ${id}`);
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
-      socket.emit("calluser", {
+      socket.emit("callUser", {
         userToCall: id,
         signalData: data,
         from: me,
@@ -54,7 +58,8 @@ const ContextProvider = ({ children }) => {
     peer.on("stream", (currentStream) => {
       userVideo.current.srcObject = currentStream;
     });
-    socket.on("callaccepted", (signal) => {
+    socket.on("callAccepted", (signal) => {
+      socket.emit("join", { name: name, room: id });
       setCallAccepted(true);
       peer.signal(signal);
     });
