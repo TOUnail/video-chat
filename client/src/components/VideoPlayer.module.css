@@ -1,4 +1,28 @@
+.videoPlayer {
+    position: relative;
+}
+
+.videoWrapper {
+    overflow: hidden;
+    border-radius: 25px;
+    -webkit-transform: translateZ(0);
+    box-shadow: 0 19px 51px 0 rgba(0,0,0,0.16), 0 14px 19px 0 rgba(0,0,0,0.07);
+    max-height: 600px;
+    z-index: 1;
+}
+
 .video {
     width: 100%;
-    max-height: 600px;
+}
+
+.userVideo {
+    z-index: 0;
+}
+
+.startCall {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    height: 225px;
 }

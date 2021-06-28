@@ -14,6 +14,7 @@ const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
@@ -30,13 +31,12 @@ const ContextProvider = ({ children }) => {
     });
   }, []);
   const answerCall = () => {
-    console.log(`answerCall id: ${me}`);
+    // console.log(`answerCall id: ${me}`);
+    setRoom(me);
     setCallAccepted(true);
     const peer = new Peer({ initiator: false, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("answerCall", { signal: data, to: call.from });
-
-      socket.emit("join", { name: name, room: me });
     });
     peer.on("stream", (currentStream) => {
       userVideo.current.srcObject = currentStream;
@@ -45,7 +45,8 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
   const callUser = (id) => {
-    console.log(`callUser id: ${id}`);
+    // console.log(`callUser id: ${id}`);
+    setRoom(id);
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("callUser", {
@@ -59,7 +60,6 @@ const ContextProvider = ({ children }) => {
       userVideo.current.srcObject = currentStream;
     });
     socket.on("callAccepted", (signal) => {
-      socket.emit("join", { name: name, room: id });
       setCallAccepted(true);
       peer.signal(signal);
     });
@@ -85,6 +85,7 @@ const ContextProvider = ({ children }) => {
         callUser,
         leaveCall,
         answerCall,
+        room,
       }}
     >
       {children}
