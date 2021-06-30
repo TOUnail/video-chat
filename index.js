@@ -8,6 +8,7 @@ const io = require("socket.io")(server, {
     origin: "*",
     methods: ["GET", "POST"],
   },
+  wsEngine: require("ws").Server,
 });
 
 app.use(cors());
@@ -58,11 +59,11 @@ io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
     //console.log(`${user.name} has joined with ${user.id}`);
     socket.join(room);
-    socket.emit("message", { user: "admin", text: `${name}, welcome!` });
-    socket.broadcast.to(name).emit("message", {
-      user: "admin",
-      text: `${name} has joined the call`,
-    });
+    // socket.emit("message", { user: "admin", text: `${name}, welcome!` });
+    // socket.broadcast.to(name).emit("message", {
+    //   user: "admin",
+    //   text: `${name} has joined the call`,
+    // });
     callback();
   });
 });

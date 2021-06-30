@@ -1,0 +1,13 @@
+.chatContainer {
+    background: #ccc;
+}
+
+.messageContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.messageContainer {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+

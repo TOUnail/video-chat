@@ -13,7 +13,7 @@ const Message = ({message: {user, text}, name}) => {
         </div>
         ) : (
             <div>
-                {name} : {text}
+                {user} : {text}
             </div>
         )
         

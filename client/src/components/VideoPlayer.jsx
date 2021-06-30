@@ -1,29 +1,31 @@
-import React, {useContext} from 'react';
+import React, {useContext,useState} from 'react';
 import { SocketContext } from '../SocketContext';
 
 import styles from "./VideoPlayer.module.css";
 // import Chat from "./Chat"
-import Options from "./Options";
-import Notifications from "./Notifications"
+// import Options from "./Options";
+// import Notifications from "./Notifications"
 
 const VideoPlayer = () => {
+    const [showHangUp, setShowHangUp] = useState(false);
     const {
-        name,
+        // name,
         callAccepted,
         myVideo,
         userVideo,
         callEnded,
         stream,
-        call,
+        leaveCall
+        // call,
     } = useContext(SocketContext)
     //console.log(call)
     return (
         <>
-        <section className={styles.videoPlayer}>
+        <section className={styles.videoContainer}>
             {
                 callAccepted && !callEnded && (
-                    <div className={styles.userVideo}>
-                        <p>{call.name || "Name"}</p>
+                    <div onMouseEnter={()=>setShowHangUp(true)} onMouseLeave={()=>setShowHangUp(false)} className={styles.userVideo}>
+                        <button className={`button is-danger ${styles.hangUp}${showHangUp ? "" : " is-hidden"}`} onClick={leaveCall}>Hang Up</button>
                         <video muted playsInline ref={userVideo} autoPlay className={styles.video} />
                     </div>
                 )
@@ -39,11 +41,11 @@ const VideoPlayer = () => {
                 )
             }
             
-      <Options>
-        <Notifications />
-      </Options>
         </section>
         
+      {/* <Options>
+        <Notifications />
+      </Options> */}
         </>
     )
 }
