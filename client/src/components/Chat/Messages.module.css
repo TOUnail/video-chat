@@ -1,4 +1,23 @@
 .messages {
     overflow: auto;
     flex: auto;
+    height: 40vh;
+}
+
+@media screen and (min-width: 1024px) {
+    .messages {
+        height: 424px
+    }
+}
+
+@media screen and (min-width: 1216px) {
+    .messages {
+        height: 520px
+    }
+}
+
+@media screen and (min-width: 1408px) {
+    .messages {
+        height: 616px
+    }
 }

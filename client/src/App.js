@@ -11,13 +11,14 @@ const App = () => {
   return (
     <div className="container">
       <div
-        className="columns is-multiline"
-        style={!callAccepted ? { alignItems: "center" } : {}}
+        className={`columns is-variable is-0 is-3-desktop is-multiline${
+          !callAccepted ? " is-align-items-center" : ""
+        }`}
       >
-        <div className="column is-9">
+        <div className="column is-full is-two-thirds-desktop py-0">
           <VideoPlayer />
         </div>
-        <div className="column is-3 is-flex">
+        <div className="column py-0">
           <Options>
             <Notifications />
           </Options>

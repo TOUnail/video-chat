@@ -15,7 +15,9 @@ const VideoPlayer = () => {
         userVideo,
         callEnded,
         stream,
-        leaveCall
+        leaveCall,
+        muteBtn,
+        stopVideo
         // call,
     } = useContext(SocketContext)
     //console.log(call)
@@ -25,7 +27,14 @@ const VideoPlayer = () => {
             {
                 callAccepted && !callEnded && (
                     <div onMouseEnter={()=>setShowHangUp(true)} onMouseLeave={()=>setShowHangUp(false)} className={styles.userVideo}>
-                        <button className={`button is-danger ${styles.hangUp}${showHangUp ? "" : " is-hidden"}`} onClick={leaveCall}>Hang Up</button>
+                        <div className={`${styles.controls}${showHangUp ? "" : " is-hidden"}`}>
+                            <div className="buttons is-right">
+                            <button className={`button is-small is-danger ${styles.hangUp}`} onClick={leaveCall}>Hang Up</button></div>
+                            <div className="buttons is-right">
+                            <button className={`button is-small is-info ${styles.mute}`} onClick={muteBtn}>Mute</button></div>
+                            <div className="buttons is-right">
+                            <button className={`button is-small is-info is-light ${styles.hideVid}`} onClick={stopVideo}>Stop Video</button></div>
+                        </div>
                         <video muted playsInline ref={userVideo} autoPlay className={styles.video} />
                     </div>
                 )
@@ -40,7 +49,6 @@ const VideoPlayer = () => {
                     </>
                 )
             }
-            
         </section>
         
       {/* <Options>

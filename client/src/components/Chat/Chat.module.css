@@ -1,13 +1,33 @@
 .chatContainer {
-    background: #ccc;
+    height:40vh;
 }
 
 .messageContainer::-webkit-scrollbar {
     display: none;
+    width: 0px;
+    background: transparent;
 }
 
 .messageContainer {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  height: 100%
 }
 
+@media screen and (min-width: 1024px) {
+    .chatContainer {
+        height: 474px
+    }
+}
+
+@media screen and (min-width: 1216px) {
+    .chatContainer {
+        height: 570px
+    }
+}
+
+@media screen and (min-width: 1408px) {
+    .chatContainer {
+        height: 666px
+    }
+}

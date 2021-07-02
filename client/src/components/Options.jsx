@@ -11,8 +11,7 @@ const Options = ({children}) => {
     return (
         <>
         {!callAccepted &&
-        <div className={`columns`}>
-            <div className="column">
+        <div className="is-expanded">
                 <div className="field">
                     <label htmlFor="name" className="label">Name</label>
                     <input id="name" className="input" value={name} onChange={e=>setName(e.target.value)} />
@@ -51,7 +50,6 @@ const Options = ({children}) => {
                 </div>
             {children}
             </div>
-        </div>
     }
     </>
     )

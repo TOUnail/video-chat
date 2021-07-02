@@ -15,6 +15,7 @@ const ContextProvider = ({ children }) => {
   const [callEnded, setCallEnded] = useState(false);
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+  const [mute, setMute] = useState(false);
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
@@ -44,6 +45,24 @@ const ContextProvider = ({ children }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
   }, []);
+  const muteBtn = () => {
+    const enabled = stream.getAudioTracks()[0].enabled;
+    if (enabled) {
+      stream.getAudioTracks()[0].enabled = false;
+      setMute(false);
+    } else {
+      stream.getAudioTracks()[0].enabled = true;
+      setMute(true);
+    }
+  };
+  const stopVideo = () => {
+    const enabled = stream.getVideoTracks()[0].enabled;
+    if (enabled) {
+      stream.getVideoTracks()[0].enabled = false;
+    } else {
+      stream.getVideoTracks()[0].enabled = true;
+    }
+  };
   const answerCall = () => {
     // console.log(`answerCall id: ${me}`);
     setRoom(me);
@@ -100,6 +119,9 @@ const ContextProvider = ({ children }) => {
         leaveCall,
         answerCall,
         room,
+        mute,
+        muteBtn,
+        stopVideo,
       }}
     >
       {children}

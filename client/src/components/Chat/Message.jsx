@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import styles from "./Message.module.css"
 
 const Message = ({message: {user, text}, name}) => {
     let isSentByCurrentUser = false;
@@ -8,11 +9,11 @@ const Message = ({message: {user, text}, name}) => {
     return (
         isSentByCurrentUser ? 
         (
-            <div style={{textAlign: 'right'}}>
+            <div className={styles.me}>
             {name}: {text}
         </div>
         ) : (
-            <div>
+            <div className={styles.recipient}>
                 {user} : {text}
             </div>
         )

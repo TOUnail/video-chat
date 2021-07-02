@@ -4,12 +4,21 @@
 }
 
 body {
-    height: 100vh;
+    max-height: 100vh;
 }
 
 #root {
     justify-content: center;
-    align-items: center;
     display: flex;
-    height: 100%;
+    max-height: 100vh;
+}
+
+@media screen and (min-width: 1024px) {
+    #root {
+        align-items: center;
+        height: 100%
+    }
+    body {
+        height: 100vh;
+    }
 }

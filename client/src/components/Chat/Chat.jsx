@@ -48,17 +48,18 @@ const Chat = ({name, room}) => {
     }
     //console.log(messages)
     return (
-        <div className={styles.chatContainer}>
-            <div className={styles.messageContainer}>
+        <div className={`${styles.chatContainer} is-flex is-flex-direction-column is-justify-content-space-between`}>
+            <div className={`${styles.messageContainer} is-flex is-justify-content-flex-end is-align-items-flex-end`}>
                 <Messages messages={messages} name={chatName} />
                 {/* {messages.map((mes,i)=><div key={i}>
                     <div>{mes.user}</div>
                     <div>{mes.text}</div>
                 </div>)} */}
             </div>
+            {/* TODO Set height to Messages component */}
             <div className={styles.inputContainer}>
                 <div className="field has-addons">
-                    <div className="control">
+                    <div className="control is-expanded">
                 <input
                     type="text"
                     placeholder="Type a message..."
