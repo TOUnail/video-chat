@@ -34,9 +34,6 @@ io.on("connection", (socket) => {
     io.to(data.to).emit("callAccepted", data.signal);
   });
   socket.on("declineCall", ({ from, name }) => {
-    console.log("declineCall triggered");
-    console.log(`name: ${name}`);
-    console.log(`from: ${from}`);
     io.to(from).emit("declineCall");
   });
   socket.on("sendMessage", (message, name, room, callback) => {
