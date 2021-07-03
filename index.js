@@ -27,43 +27,24 @@ io.on("connection", (socket) => {
   });
 
   socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-    // console.log("callUser room");
-    // console.log(userToCall);
-    //socket.join(userToCall);
     io.to(userToCall).emit("callUser", { signal: signalData, from, name });
-    // socket.join(userToCall);
-    // socket.emit("message", {
-    //   user: "admin",
-    //   text: `${name} has joined the room`,
-    // });
   });
 
   socket.on("answerCall", (data) => {
-    // console.log("answerCall room");
-    // console.log(data.room);
-
-    // socket.join(data.room);
     io.to(data.to).emit("callAccepted", data.signal);
-    // socket.join(data.room);
-    // socket.emit("message", {
-    //   user: "admin",
-    //   text: `${data.name} has joined the room`,
-    // });
+  });
+  socket.on("declineCall", ({ from, name }) => {
+    console.log("declineCall triggered");
+    console.log(`name: ${name}`);
+    console.log(`from: ${from}`);
+    io.to(from).emit("declineCall");
   });
   socket.on("sendMessage", (message, name, room, callback) => {
-    // console.log(room);
-    // console.log(`${name}: ${message}`);
     io.to(room).emit("message", { user: name, text: message });
     callback();
   });
   socket.on("join", ({ name, room }, callback) => {
-    //console.log(`${user.name} has joined with ${user.id}`);
     socket.join(room);
-    // socket.emit("message", { user: "admin", text: `${name}, welcome!` });
-    // socket.broadcast.to(name).emit("message", {
-    //   user: "admin",
-    //   text: `${name} has joined the call`,
-    // });
     callback();
   });
 });

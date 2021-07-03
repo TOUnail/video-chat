@@ -1,3 +1,16 @@
+.messageWrapper {
+    display: flex;
+}
+
 .me {
-    text-align: left;
+    text-align: right;
+    background: blue;
+    color: white;
+    border-radius: 20px;
+}
+
+.recipient {
+    background: green;
+    color: white;
+    border-radius: 20px;
 }

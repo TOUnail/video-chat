@@ -9,7 +9,7 @@ const Messages = ({messages, name}) => {
     // TODO: fix design for responsive
     return (
         <ScrollableFeed className={styles.messages}>
-            {messages.map((message, i) => <div key={i}><Message message={message} name={name} /></div>)}
+            {messages.map((message, i) => <Message key={i} message={message} name={name} />)}
         </ScrollableFeed>
     )
 }

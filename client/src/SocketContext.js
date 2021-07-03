@@ -13,9 +13,11 @@ const ContextProvider = ({ children }) => {
   const [call, setCall] = useState({});
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
+  const [callDeclined, setCallDeclined] = useState(false);
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [mute, setMute] = useState(false);
+  const [camera, setCamera] = useState(true);
   const myVideo = useRef();
   const userVideo = useRef();
   const connectionRef = useRef();
@@ -38,6 +40,7 @@ const ContextProvider = ({ children }) => {
         .then((currentStream) => {
           setStream(currentStream);
           myVideo.current.srcObject = currentStream;
+          setMute(!currentStream.getAudioTracks()[0].enabled);
         });
     }
     socket.on("me", (id) => setMe(id));
@@ -49,18 +52,20 @@ const ContextProvider = ({ children }) => {
     const enabled = stream.getAudioTracks()[0].enabled;
     if (enabled) {
       stream.getAudioTracks()[0].enabled = false;
-      setMute(false);
+      setMute(true);
     } else {
       stream.getAudioTracks()[0].enabled = true;
-      setMute(true);
+      setMute(false);
     }
   };
   const stopVideo = () => {
     const enabled = stream.getVideoTracks()[0].enabled;
     if (enabled) {
       stream.getVideoTracks()[0].enabled = false;
+      setCamera(false);
     } else {
       stream.getVideoTracks()[0].enabled = true;
+      setCamera(true);
     }
   };
   const answerCall = () => {
@@ -77,9 +82,12 @@ const ContextProvider = ({ children }) => {
     peer.signal(call.signal);
     connectionRef.current = peer;
   };
+  const declineCall = () => {
+    socket.emit("declineCall", { from: call.from, name: me });
+    setCall({});
+  };
   const callUser = (id) => {
     // console.log(`callUser id: ${id}`);
-    setRoom(id);
     const peer = new Peer({ initiator: true, trickle: false, stream });
     peer.on("signal", (data) => {
       socket.emit("callUser", {
@@ -93,10 +101,15 @@ const ContextProvider = ({ children }) => {
       userVideo.current.srcObject = currentStream;
     });
     socket.on("callAccepted", (signal) => {
+      setRoom(id);
       setCallAccepted(true);
       peer.signal(signal);
     });
     connectionRef.current = peer;
+    socket.on("declineCall", () => {
+      setCallDeclined(true);
+      connectionRef.current.destroy();
+    });
   };
   const leaveCall = () => {
     setCallEnded(true);
@@ -122,6 +135,9 @@ const ContextProvider = ({ children }) => {
         mute,
         muteBtn,
         stopVideo,
+        declineCall,
+        callDeclined,
+        camera,
       }}
     >
       {children}
