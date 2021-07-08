@@ -50,5 +50,6 @@
     .videoContainer,
     .userVideo {
         height:auto;
+        max-height:666px;
     }
 }

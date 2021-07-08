@@ -3,7 +3,7 @@ import Messages from "./Messages";
 import io from 'socket.io-client';
 
 import styles from "./Chat.module.css"
-const ENDPOINT = 'localhost:5000';
+const ENDPOINT = 'https://video-chat-app-at.herokuapp.com';
 let socket;
 const Chat = ({name, room}) => {
     const [chatName, setChatName] = useState('');

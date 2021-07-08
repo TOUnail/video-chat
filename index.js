@@ -14,7 +14,7 @@ const io = require("socket.io")(server, {
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
-app.set("view engine", "ejs");
+// app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
